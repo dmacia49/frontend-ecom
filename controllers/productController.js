@@ -4,7 +4,9 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE;
 
 export const fetchAllProducts = async () => {
   try {
-    const res = await axios.get(`https://back-end-ecom.onrender.com/products`);
+    const res = await axios.get(
+      `https://back-end-ecom.onrender.com/api/products`
+    );
     return res.data;
   } catch (error) {
     console.error(" Error fetching products:", error.message);
