@@ -1,33 +1,35 @@
 // pages/profile.js
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import Navbar from '@/components/Navbar';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Navbar from "@/components/Navbar";
 
 export default function ProfilePage() {
   const [orders, setOrders] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const token = localStorage.getItem('token');
-
+      const token = localStorage.getItem("token");
       if (!token) {
-        setError('Unauthorized. Please log in.');
-        router.push('/login');
+        setError("Unauthorized. Please log in.");
+        router.push("/login");
         return;
       }
 
       try {
-        const res = await fetch('http://localhost:5000/api/orders/myOrders', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `https://back-end-ecom.onrender.com//api/orders/myOrders`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         const data = await res.json();
         if (!res.ok) {
-          throw new Error(data.message || 'Failed to fetch orders');
+          throw new Error(data.message || "Failed to fetch orders");
         }
 
         setOrders(data);
@@ -51,11 +53,17 @@ export default function ProfilePage() {
             <div className="card shadow-sm">
               <div className="card-body">
                 <h5 className="card-title">Order #{order._id}</h5>
-                <p>Status: <strong>{order.status}</strong></p>
-                <p>Total: <strong>${order.totalAmount}</strong></p>
+                <p>
+                  Status: <strong>{order.status}</strong>
+                </p>
+                <p>
+                  Total: <strong>${order.totalAmount}</strong>
+                </p>
                 <ul>
                   {order.items.map((item, i) => (
-                    <li key={i}>{item.product?.name} × {item.quantity}</li>
+                    <li key={i}>
+                      {item.product?.name} × {item.quantity}
+                    </li>
                   ))}
                 </ul>
               </div>

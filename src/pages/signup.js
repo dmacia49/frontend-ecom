@@ -9,6 +9,7 @@ export default function Signup() {
   });
   const [error, setError] = useState("");
   const router = useRouter();
+  const apiUrl = process.env.API_BASE;
 
   // Redirect if already logged in
   useEffect(() => {
@@ -42,15 +43,18 @@ export default function Signup() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          passwordHash: password // use consistent field name with backend
-        }),
-      });
+      const res = await fetch(
+        `https://back-end-ecom.onrender.com//api/auth/signup`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            passwordHash: password, // use consistent field name with backend
+          }),
+        }
+      );
 
       if (!res.ok) {
         return setError(data.message || "Signup failed.");
